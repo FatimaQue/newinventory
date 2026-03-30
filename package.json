@@ -4,11 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "postinstall": "prisma generate",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint",
-    "seed": "tsx prisma/seed.ts"
+    "dev": "prisma generate && next dev"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
@@ -25,7 +23,7 @@
     "ws": "^8.19.0"
   },
   "devDependencies": {
-    "@prisma/client": "^7.5.0",
+    "@prisma/client": "^7.6.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/pg": "^8.18.0",
@@ -34,7 +32,7 @@
     "@types/ws": "^8.18.1",
     "eslint": "^9",
     "eslint-config-next": "16.2.0",
-    "prisma": "^7.5.0",
+    "prisma": "^7.0.0",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5"
