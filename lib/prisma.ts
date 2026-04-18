@@ -1,20 +1,25 @@
-import { PrismaClient } from '@prisma/client'
+import { neonConfig } from "@neondatabase/serverless";
+import { PrismaNeon } from "@prisma/adapter-neon";
+import { PrismaClient } from "@prisma/client";
+import ws from "ws";
+
+neonConfig.webSocketConstructor = ws;
 
 const prismaClientSingleton = () => {
-  // In Prisma 7, keep this empty. 
-  // The client uses the config from prisma.config.ts by default.
-  return new PrismaClient({
-    // @ts-ignore - Temporary fix for Prisma 7 type mismatch
-    datasourceUrl: process.env.DATABASE_URL 
-  } as any)
-}
+   const connectionString = process.env.DATABASE_URL;
+   if (!connectionString) {
+      throw new Error("DATABASE_URL is not set");
+   }
+   const adapter = new PrismaNeon({ connectionString });
+   return new PrismaClient({ adapter });
+};
 
-type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>
+type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>;
 
 const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClientSingleton | undefined
-}
+   prisma: PrismaClientSingleton | undefined;
+};
 
-export const prisma = globalForPrisma.prisma ?? prismaClientSingleton()
+export const prisma = globalForPrisma.prisma ?? prismaClientSingleton();
 
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;

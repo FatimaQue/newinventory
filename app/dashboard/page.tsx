@@ -3,23 +3,25 @@ import { getCurrentUser } from "@/lib/auth";
 import Sidebar from "../components/sidebar";
 import {prisma} from "@/lib/prisma"
 import {TrendingUp } from 'lucide-react'
-import ProductsChart from "../components/products-chart";
 import ProductAreaChart from "../components/products-chart";
+import ProductsDonutChart from "../components/products-donut-chart";
 
 export default async function DashboardPage(){
-   
-  
-    return <div className="min-h-screen bg-gray-50"><Sidebar currentPath="/dashboard"/>
-    <main className="ml-64 p-8">
+
+
+    return <div className="min-h-screen bg-gray-50"><Sidebar/>
+    <main className="lg:ml-64 pt-20 lg:pt-8 px-4 sm:px-6 lg:p-8">
         <div className="mb-8">
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-2xl font-semibold text-gray-900">DashBoard</h1>
                     <p className="text-sm text-gray-500">Welcome back Here is an overview of your Inventory.</p></div></div></div>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                        <div className="bg-white rounded-lg border border-gray-200 p-6">
+
+                    {/* Top row: Key Metrics + Growth Analysis */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-8">
+                        <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6">
                             <h1 className="text-lg font-semibold text-gray-900 mb-6">Key Metrics</h1>
-                            <div className="grid grid-cols-3 gap-6">
+                            <div className="grid grid-cols-3 gap-3 sm:gap-6">
                                 <div className="text-center"><div className="twxt-3xl font-bold text-gray-900">25</div>
                                 <div className="text-sm text-gray-600">
                                     Total Products</div>
@@ -39,16 +41,21 @@ export default async function DashboardPage(){
                                     <TrendingUp className="w-3 h-3 text-green-600 ml-1" /></div>
                                     </div>
                             </div>
-                            
-                            
                         </div>
-                        </div> <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                            <div className="bg-white rounded-lg border border-gray-200 p-6">
+
+                        <div className="bg-white rounded-lg border border-gray-200">
+                            <ProductAreaChart/>
+                        </div>
+                    </div>
+
+                    {/* Bottom row: Stock Levels + Donut Chart */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-8">
+                            <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6">
                                 <div className="flex items-center justify-between mb-6">
                                     <h2 className="text-lg font-semibold text-gray-9">Stock Levels</h2>
                                 </div>
-                                <div className="flex flex-col space-y-4 p-4 rounded-lg bg-gray-50 max-w-sm">
-  
+                                <div className="flex flex-col space-y-4 p-4 rounded-lg bg-gray-50 w-full">
+
   {/* Product 1 */}
   <div className="flex items-start space-x-3">
     {/* Status Dot */}
@@ -97,14 +104,12 @@ export default async function DashboardPage(){
   </div>
 
 </div>
-</div>   
-<div className="bg-white rounded-lg border border-gray-200 ">
-  
-<div >
-  <ProductAreaChart/>
 </div>
+
+<div className="bg-white rounded-lg border border-gray-200">
+  <ProductsDonutChart/>
 </div>
   </div>
-                        
+
                         </main></div>
-} 
+}

@@ -10,8 +10,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // Replace env("DATABASE_URL") with the string directly
- 
 }
 model Product{
   id String @id @default(cuid())
@@ -23,6 +21,19 @@ model Product{
   lowStock Int?
   createdAt DateTime @default(now())
   UpdatedAt DateTime @updatedAt
+  activityLogs ActivityLog[]
   @@index([userId, name])
   @@index([createdAt])
+}
+
+model ActivityLog {
+  id               String   @id @default(cuid())
+  productId        String
+  userId           String
+  previousQuantity Int
+  newQuantity      Int
+  timestamp        DateTime @default(now())
+  product          Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  @@index([userId, timestamp])
+  @@index([productId, timestamp])
 }
