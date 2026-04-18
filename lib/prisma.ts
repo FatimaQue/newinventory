@@ -7,6 +7,17 @@ neonConfig.webSocketConstructor = ws;
 
 const prismaClientSingleton = () => {
    const connectionString = process.env.DATABASE_URL;
+   console.log("[prisma] DATABASE_URL debug:", {
+      exists: connectionString !== undefined,
+      length: connectionString?.length,
+      prefix: connectionString?.slice(0, 20),
+      startsWithPostgres:
+         connectionString?.startsWith("postgresql://") ||
+         connectionString?.startsWith("postgres://"),
+      hasQuotes:
+         connectionString?.startsWith('"') || connectionString?.startsWith("'"),
+      hasWhitespace: connectionString !== connectionString?.trim(),
+   });
    if (!connectionString) {
       throw new Error("DATABASE_URL is not set");
    }
